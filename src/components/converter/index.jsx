@@ -1,12 +1,69 @@
 import React, { useState } from 'react';
+import { mask, unMask } from 'remask';
 
 import { ReactComponent as ArrowLeft } from '../../assets/svgs/arrowLeft.svg';
 import { ReactComponent as Arrows } from '../../assets/svgs/arrows.svg';
-import { Body, TypeOfBuy, Calculated } from './styles';
+import { Body, TypeOfBuy, Calculated, Input } from './styles';
 
-export default function Converter() {
+export default function Converter({ dolarCotation }) {
+  const [error, setError] = useState({ first: false, second: false });
   const [purchaseType, setPurchaseType] = useState('dinheiro');
   const [isCalculated, setIsCalculated] = useState(false);
+  const [dolarValue, setDolarValue] = useState(null);
+  const [stateTax, setStateTax] = useState(null);
+  const [taxText, setTaxtText] = useState('');
+  const [result, setResult] = useState(0);
+
+  const handleStatetax = (event) => {
+    const array = ['9', '99', '9.99', '99.99'];
+    const originalValue = unMask(event.target.value);
+    const maskedValue = mask(originalValue, array);
+    setStateTax(maskedValue);
+  };
+
+  const handleValue = (event) => {
+    const array = ['9', '99', '99.99', '999.99', '9999.99'];
+    const originalValue = unMask(event.target.value);
+    const maskedValue = mask(originalValue, array);
+    setDolarValue(maskedValue);
+  };
+
+  const amountMoneyConversion = () => {
+    const value = Number(dolarValue) + Number(stateTax);
+    const cotation = Number(dolarCotation) + 0.1;
+    const calc = value * cotation;
+
+    return setResult(calc.toFixed(2));
+  };
+
+  const amountCardConversion = () => {
+    const value = Number(dolarValue) + Number(stateTax) + 0.64;
+    const calc = Number(dolarCotation) * value;
+
+    return setResult(calc.toFixed(2));
+  };
+
+  const submit = () => {
+    if (!dolarValue && !stateTax) {
+      return setError({ first: true, second: true });
+    }
+    if (!dolarValue) {
+      return setError({ first: true, second: false });
+    }
+    if (!stateTax) {
+      return setError({ first: false, second: true });
+    }
+
+    if (purchaseType === 'dinheiro') {
+      amountMoneyConversion();
+      setIsCalculated(true);
+      setTaxtText('Compra no dinheiro e taxa de:');
+    } else {
+      amountCardConversion();
+      setIsCalculated(true);
+      setTaxtText('Compra no cartão e taxa de:');
+    }
+  };
 
   return (
     <Body>
@@ -15,11 +72,21 @@ export default function Converter() {
           <div className="converter-input-container">
             <div className="input-box">
               <span>Dólar</span>
-              <input placeholder="?" />
+              <Input
+                onChange={(e) => handleValue(e)}
+                value={dolarValue}
+                error={error.first}
+                placeholder="$ 00.00"
+              />
             </div>
             <div className="input-box">
               <span>Taxa do Estado</span>
-              <input placeholder="?" />
+              <Input
+                onChange={(e) => handleStatetax(e)}
+                value={stateTax}
+                error={error.second}
+                placeholder="00.00 %"
+              />
             </div>
           </div>
           <TypeOfBuy>
@@ -44,7 +111,7 @@ export default function Converter() {
                 <span>Cartão</span>
               </div>
             </div>
-            <button type="button" onClick={() => setIsCalculated(true)}>
+            <button type="button" onClick={submit}>
               <Arrows height={16} />
               <span>Converter</span>
             </button>
@@ -59,16 +126,20 @@ export default function Converter() {
           <div className="result-container">
             <div className="main-result">
               <h3>O resultado do cálculo é</h3>
-              <h1>R$ 240,56</h1>
+              <h1>
+                R$
+                {result}
+              </h1>
             </div>
             <div className="iof-cotation">
               <span>
-                <strong>Compra no dinheiro e taxa de:</strong>
-                5.4%
+                <strong>{taxText}</strong>
+                {`${stateTax}%`}
               </span>
               <span>
                 <strong>Cótação do dólar:</strong>
-                $1.00 = R$ 5,20
+                $1.00 = R$
+                {dolarCotation}
               </span>
             </div>
           </div>

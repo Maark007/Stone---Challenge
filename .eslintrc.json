@@ -16,6 +16,9 @@
     "global-require": "off",
     "import/prefer-default-export": "off",
     "comma-dangle": ["error", "never"],
+    "react/prop-types": 0,
+    "consistent-return": "off",
+    "object-curly-newline": "off",
     "no-unused-expressions": ["error", { "allowTaggedTemplates": true }]
   }
 }

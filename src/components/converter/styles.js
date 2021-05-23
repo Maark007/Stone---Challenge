@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Body = styled.div`
   padding: 50px 35px 0;
@@ -15,15 +15,6 @@ export const Body = styled.div`
       font-size: 16.9px;
       margin-bottom: 8px;
     }
-    input {
-      border: 1px solid #aaaa;
-      padding: 16px;
-      height: 46px;
-      border-radius: 4px;
-      outline: none;
-      font-family: 'Roboto', sans-serif;
-      box-shadow: 0px 8px 4px rgba(13, 17, 27, 0.08);
-    }
   }
   @media screen and (max-width: 580px) {
     padding: 50px 20px;
@@ -37,6 +28,20 @@ export const Body = styled.div`
       }
     }
   }
+`;
+
+export const Input = styled.input`
+  border: 1px solid #aaaa;
+  padding: 16px;
+  height: 46px;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: 0px 8px 4px rgba(13, 17, 27, 0.08);
+  font-weight: bold;
+  ${({ error }) => error
+    && css`
+      border: 1px solid #f9090982;
+    `}
 `;
 
 export const TypeOfBuy = styled.div`
