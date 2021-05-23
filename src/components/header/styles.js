@@ -11,7 +11,6 @@ export const Body = styled.header`
     display: flex;
     flex-direction: column;
     margin-left: 48px;
-    font-family: 'Roboto', sans-serif;
     h3 {
       color: rgba(69, 80, 94, 1);
       font-weight: bold;
@@ -22,6 +21,20 @@ export const Body = styled.header`
       font-size: 14px;
       font-weight: 500;
       padding-top: 3px;
+    }
+  }
+  @media screen and (max-width: 580px) {
+    padding: 20px 10px;
+    .header-box {
+      flex-direction: column;
+    }
+    .header-hour-box {
+      align-items: center;
+      margin: 20px 0 0;
+      h3,
+      span {
+        text-align: center;
+      }
     }
   }
 `;
