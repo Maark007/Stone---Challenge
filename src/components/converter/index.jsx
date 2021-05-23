@@ -29,7 +29,8 @@ export default function Converter({ dolarCotation }) {
   };
 
   const amountMoneyConversion = () => {
-    const value = Number(dolarValue) + Number(stateTax);
+    const tax = (stateTax / 100).toFixed(2);
+    const value = Number(dolarValue) + Number(tax);
     const cotation = Number(dolarCotation) + 0.1;
     const calc = value * cotation;
 
@@ -37,8 +38,9 @@ export default function Converter({ dolarCotation }) {
   };
 
   const amountCardConversion = () => {
-    const value = Number(dolarValue) + Number(stateTax) + 0.64;
-    const calc = Number(dolarCotation) * value;
+    const tax = (stateTax / 100).toFixed(2);
+    const value = Number(dolarValue) + Number(tax) + 0.64;
+    const calc = value * Number(dolarCotation);
 
     return setResult(calc.toFixed(2));
   };
@@ -63,6 +65,13 @@ export default function Converter({ dolarCotation }) {
       setIsCalculated(true);
       setTaxtText('Compra no cartão e taxa de:');
     }
+  };
+
+  const returnConversion = () => {
+    setIsCalculated(false);
+    setStateTax(null);
+    setDolarValue(null);
+    setResult(null);
   };
 
   return (
@@ -119,17 +128,14 @@ export default function Converter({ dolarCotation }) {
         </>
       ) : (
         <Calculated>
-          <button type="button" onClick={() => setIsCalculated(false)}>
+          <button type="button" onClick={returnConversion}>
             <ArrowLeft height={23} fill="grey" />
             <span>Voltar</span>
           </button>
           <div className="result-container">
             <div className="main-result">
               <h3>O resultado do cálculo é</h3>
-              <h1>
-                R$
-                {result}
-              </h1>
+              <h1>{`R$ ${result}`}</h1>
             </div>
             <div className="iof-cotation">
               <span>
