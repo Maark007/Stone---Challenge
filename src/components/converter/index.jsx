@@ -14,6 +14,10 @@ export default function Converter({ dolarCotation }) {
   const [taxText, setTaxtText] = useState('');
   const [result, setResult] = useState(0);
 
+  function percentage(num, per) {
+    return (num / 100) * per;
+  }
+
   const handleStatetax = (event) => {
     const array = ['9', '99', '9.99', '99.99'];
     const originalValue = unMask(event.target.value);
@@ -22,27 +26,23 @@ export default function Converter({ dolarCotation }) {
   };
 
   const handleValue = (event) => {
-    const array = ['9', '99', '99.99', '999.99', '9999.99'];
+    const array = ['9', '99.99', '999.99', '9999.99'];
     const originalValue = unMask(event.target.value);
     const maskedValue = mask(originalValue, array);
     setDolarValue(maskedValue);
   };
 
   const amountMoneyConversion = () => {
-    const tax = (stateTax / 100).toFixed(2);
-    const value = Number(dolarValue) + Number(tax);
-    const cotation = Number(dolarCotation) + 0.1;
-    const calc = value * cotation;
-
-    return setResult(calc.toFixed(2));
+    const withTax = Number(dolarValue) + (Number(dolarValue) / 100) * Number(stateTax);
+    const converted = withTax * (Number(dolarCotation) + percentage(Number(dolarCotation), 1.1));
+    return setResult(converted.toFixed(2));
   };
 
   const amountCardConversion = () => {
-    const tax = (stateTax / 100).toFixed(2);
-    const value = Number(dolarValue) + Number(tax) + 0.64;
-    const calc = value * Number(dolarCotation);
-
-    return setResult(calc.toFixed(2));
+    const withTax = Number(dolarValue) + (Number(dolarValue) / 100) * Number(stateTax);
+    const converted = withTax * (Number(dolarCotation));
+    const plusIof = converted + percentage(Number(converted), 6.4);
+    return setResult(plusIof.toFixed(2));
   };
 
   const submit = () => {
@@ -72,6 +72,7 @@ export default function Converter({ dolarCotation }) {
     setStateTax(null);
     setDolarValue(null);
     setResult(null);
+    setError({ first: false, second: false });
   };
 
   return (
@@ -140,7 +141,7 @@ export default function Converter({ dolarCotation }) {
             <div className="iof-cotation">
               <span>
                 <strong>{taxText}</strong>
-                {`${stateTax}%`}
+                {purchaseType === 'dinheiro' ? '1,1%' : '6.4%'}
               </span>
               <span>
                 <strong>Cótação do dólar:</strong>

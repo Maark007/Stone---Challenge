@@ -39,7 +39,7 @@ export const Input = styled.input`
   box-shadow: 0px 8px 4px rgba(13, 17, 27, 0.08);
   font-weight: bold;
   ${({ error }) => error
-    && css`
+   && css`
       border: 1px solid #f9090982;
     `}
 `;
@@ -99,6 +99,15 @@ export const TypeOfBuy = styled.div`
 `;
 
 export const Calculated = styled.div`
+  @keyframes apppearContainer {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  animation: apppearContainer ease-in 0.3s;
   button {
     display: flex;
     align-items: center;
