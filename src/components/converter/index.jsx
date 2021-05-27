@@ -9,8 +9,8 @@ export default function Converter({ dolarCotation }) {
   const [error, setError] = useState({ first: false, second: false });
   const [purchaseType, setPurchaseType] = useState('dinheiro');
   const [isCalculated, setIsCalculated] = useState(false);
-  const [dolarValue, setDolarValue] = useState(null);
-  const [stateTax, setStateTax] = useState(null);
+  const [dolarValue, setDolarValue] = useState(undefined);
+  const [stateTax, setStateTax] = useState(undefined);
   const [taxText, setTaxtText] = useState('');
   const [result, setResult] = useState(0);
 
@@ -87,6 +87,7 @@ export default function Converter({ dolarCotation }) {
                 value={dolarValue}
                 error={error.first}
                 placeholder="$ 00.00"
+                aria-label="dolar-input"
               />
             </div>
             <div className="input-box">
@@ -96,6 +97,7 @@ export default function Converter({ dolarCotation }) {
                 value={stateTax}
                 error={error.second}
                 placeholder="00.00 %"
+                aria-label="tax-input"
               />
             </div>
           </div>
@@ -108,6 +110,7 @@ export default function Converter({ dolarCotation }) {
                   value={purchaseType}
                   checked={purchaseType === 'dinheiro'}
                   onClick={() => setPurchaseType('dinheiro')}
+                  onChange={() => {}}
                 />
                 <span>Dinheiro</span>
               </div>
@@ -117,11 +120,12 @@ export default function Converter({ dolarCotation }) {
                   value={purchaseType}
                   checked={purchaseType === 'cartão'}
                   onClick={() => setPurchaseType('cartão')}
+                  onChange={() => {}}
                 />
                 <span>Cartão</span>
               </div>
             </div>
-            <button type="button" onClick={submit}>
+            <button type="button" aria-label="button" onClick={submit} disabled={!stateTax && !dolarValue}>
               <Arrows height={16} />
               <span>Converter</span>
             </button>
@@ -136,7 +140,7 @@ export default function Converter({ dolarCotation }) {
           <div className="result-container">
             <div className="main-result">
               <h3>O resultado do cálculo é</h3>
-              <h1>{`R$ ${result}`}</h1>
+              <h1 aria-label="result-box">{`R$ ${result}`}</h1>
             </div>
             <div className="iof-cotation">
               <span>
