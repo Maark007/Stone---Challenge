@@ -4,6 +4,10 @@ import { mask, unMask } from 'remask';
 import { ReactComponent as ArrowLeft } from '../../assets/svgs/arrowLeft.svg';
 import { ReactComponent as Arrows } from '../../assets/svgs/arrows.svg';
 import { Body, TypeOfBuy, Calculated, Input } from './styles';
+import {
+  cardConversion,
+  moneyConversion
+} from '../../utils/conversionCalculations';
 
 export default function Converter({ dolarCotation }) {
   const [error, setError] = useState({ first: false, second: false });
@@ -13,10 +17,6 @@ export default function Converter({ dolarCotation }) {
   const [stateTax, setStateTax] = useState(undefined);
   const [taxText, setTaxtText] = useState('');
   const [result, setResult] = useState(0);
-
-  function percentage(num, per) {
-    return (num / 100) * per;
-  }
 
   const handleStatetax = (event) => {
     const array = ['9', '99', '9.99', '99.99'];
@@ -32,19 +32,6 @@ export default function Converter({ dolarCotation }) {
     setDolarValue(maskedValue);
   };
 
-  const amountMoneyConversion = () => {
-    const withTax = Number(dolarValue) + (Number(dolarValue) / 100) * Number(stateTax);
-    const converted = withTax * (Number(dolarCotation) + percentage(Number(dolarCotation), 1.1));
-    return setResult(converted.toFixed(2));
-  };
-
-  const amountCardConversion = () => {
-    const withTax = Number(dolarValue) + (Number(dolarValue) / 100) * Number(stateTax);
-    const converted = withTax * (Number(dolarCotation));
-    const plusIof = converted + percentage(Number(converted), 6.4);
-    return setResult(plusIof.toFixed(2));
-  };
-
   const submit = () => {
     if (!dolarValue && !stateTax) {
       return setError({ first: true, second: true });
@@ -57,11 +44,23 @@ export default function Converter({ dolarCotation }) {
     }
 
     if (purchaseType === 'dinheiro') {
-      amountMoneyConversion();
+      setResult(
+        moneyConversion(
+          Number(dolarValue),
+          Number(stateTax),
+          Number(dolarCotation)
+        )
+      );
       setIsCalculated(true);
       setTaxtText('Compra no dinheiro e taxa de:');
     } else {
-      amountCardConversion();
+      setResult(
+        cardConversion(
+          Number(dolarValue),
+          Number(stateTax),
+          Number(dolarCotation)
+        )
+      );
       setIsCalculated(true);
       setTaxtText('Compra no cartão e taxa de:');
     }
@@ -125,7 +124,12 @@ export default function Converter({ dolarCotation }) {
                 <span>Cartão</span>
               </div>
             </div>
-            <button type="button" aria-label="button" onClick={submit} disabled={!stateTax && !dolarValue}>
+            <button
+              type="button"
+              aria-label="button"
+              onClick={submit}
+              disabled={!stateTax && !dolarValue}
+            >
               <Arrows height={16} />
               <span>Converter</span>
             </button>

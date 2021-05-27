@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react';
 import { Body } from './styles';
 import api from '../../services/api';
@@ -15,7 +16,6 @@ export default function Home() {
 
         setCotation(response.data.USDBRL.bid);
       } catch {
-        // eslint-disable-next-line no-alert
         alert('Erro na API.');
       }
     }

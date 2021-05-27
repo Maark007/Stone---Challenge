@@ -1,3 +1,5 @@
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable operator-linebreak */
 import styled, { css } from 'styled-components';
 
 export const Body = styled.div`
@@ -38,8 +40,9 @@ export const Input = styled.input`
   outline: none;
   box-shadow: 0px 8px 4px rgba(13, 17, 27, 0.08);
   font-weight: bold;
-  ${({ error }) => error
-   && css`
+  ${({ error }) =>
+    error &&
+    css`
       border: 1px solid #f9090982;
     `}
 `;
@@ -87,6 +90,11 @@ export const TypeOfBuy = styled.div`
     border-radius: 8px;
     width: 130px;
     height: 50px;
+    :disabled {
+      cursor: default;
+      border: none;
+      opacity: 0.5;
+    }
     span {
       margin-left: 5px;
       color: #fff;
