@@ -56,7 +56,7 @@ app
 |     |
 |     ├──── utils
 |           └── conversionCalculations
-|           └── conversionCalculations
+|           └── currentDate
 └── test
     └── converter.test
 ```
