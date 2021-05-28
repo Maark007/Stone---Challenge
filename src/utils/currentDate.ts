@@ -13,7 +13,7 @@ const arrayOfMonths = [
   'Dezembro'
 ];
 
-export const currentDate = () => {
+export const currentDate = (): string => {
   const date = new Date();
 
   const time = date.toLocaleTimeString().substring(0, 5);

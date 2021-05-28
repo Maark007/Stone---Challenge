@@ -1,0 +1,5 @@
+{
+  "moduleNameMapper": {
+    "\\.svg$": "<rootDir>/__mocks__/svgrMock.tsx"
+  }
+}

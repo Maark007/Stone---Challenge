@@ -1,18 +1,19 @@
 import '@testing-library/jest-dom/extend-expect';
 import React from 'react';
+import Converter from '../src/components/converter';
 
 import { render, fireEvent } from '@testing-library/react';
 import {
   moneyConversion,
   cardConversion
 } from '../src/utils/conversionCalculations';
-import Converter from '../src/components/converter';
 
 describe('Simulating user interation', () => {
-  const component = render(<Converter />);
-  const conversionButton = component.getByLabelText('button');
-  const dolarInput = component.getByLabelText('dolar-input');
-  const taxInput = component.getByLabelText('tax-input');
+  const component = render(<Converter dolarCotation={5.3} />);
+
+  const conversionButton = component.getByLabelText('button') as HTMLButtonElement;
+  const dolarInput = component.getByLabelText('dolar-input') as HTMLInputElement;
+  const taxInput = component.getByLabelText('tax-input') as HTMLInputElement;
 
   test('It should render the inputs', () => {
     expect(dolarInput).toBeInTheDocument();

@@ -1,6 +1,8 @@
-/* eslint-disable implicit-arrow-linebreak */
-/* eslint-disable operator-linebreak */
 import styled, { css } from 'styled-components';
+
+interface InputProps {
+  error: boolean
+}
 
 export const Body = styled.div`
   padding: 50px 35px 0;
@@ -32,7 +34,7 @@ export const Body = styled.div`
   }
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<InputProps>`
   border: 1px solid #aaaa;
   padding: 16px;
   height: 46px;

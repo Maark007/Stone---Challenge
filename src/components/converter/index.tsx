@@ -9,25 +9,31 @@ import {
   moneyConversion
 } from '../../utils/conversionCalculations';
 
-export default function Converter({ dolarCotation }) {
+interface ConverterProps {
+  dolarCotation: number;
+}
+
+export default function Converter({
+  dolarCotation
+}: ConverterProps): JSX.Element {
+  const [stateTax, setStateTax] = useState<string | undefined>(undefined);
   const [error, setError] = useState({ first: false, second: false });
   const [purchaseType, setPurchaseType] = useState('dinheiro');
-  const [isCalculated, setIsCalculated] = useState(false);
+  const [result, setResult] = useState<number | undefined>(0);
   const [dolarValue, setDolarValue] = useState(undefined);
-  const [stateTax, setStateTax] = useState(undefined);
+  const [isCalculated, setIsCalculated] = useState(false);
   const [taxText, setTaxtText] = useState('');
-  const [result, setResult] = useState(0);
 
-  const handleStatetax = (event) => {
+  const handleStatetax = (event: string) => {
     const array = ['9', '99', '9.99', '99.99'];
-    const originalValue = unMask(event.target.value);
+    const originalValue = unMask(event);
     const maskedValue = mask(originalValue, array);
     setStateTax(maskedValue);
   };
 
-  const handleValue = (event) => {
+  const handleValue = (event: string) => {
     const array = ['9', '99.99', '999.99', '9999.99'];
-    const originalValue = unMask(event.target.value);
+    const originalValue = unMask(event);
     const maskedValue = mask(originalValue, array);
     setDolarValue(maskedValue);
   };
@@ -68,9 +74,9 @@ export default function Converter({ dolarCotation }) {
 
   const returnConversion = () => {
     setIsCalculated(false);
-    setStateTax(null);
-    setDolarValue(null);
-    setResult(null);
+    setStateTax(undefined);
+    setDolarValue(undefined);
+    setResult(undefined);
     setError({ first: false, second: false });
   };
 
@@ -82,7 +88,7 @@ export default function Converter({ dolarCotation }) {
             <div className="input-box">
               <span>Dólar</span>
               <Input
-                onChange={(e) => handleValue(e)}
+                onChange={(e) => handleValue(e.target.value)}
                 value={dolarValue}
                 error={error.first}
                 placeholder="$ 00.00"
@@ -92,7 +98,7 @@ export default function Converter({ dolarCotation }) {
             <div className="input-box">
               <span>Taxa do Estado</span>
               <Input
-                onChange={(e) => handleStatetax(e)}
+                onChange={(e) => handleStatetax(e.target.value)}
                 value={stateTax}
                 error={error.second}
                 placeholder="00.00 %"
@@ -108,8 +114,7 @@ export default function Converter({ dolarCotation }) {
                   type="radio"
                   value={purchaseType}
                   checked={purchaseType === 'dinheiro'}
-                  onClick={() => setPurchaseType('dinheiro')}
-                  onChange={() => {}}
+                  onChange={() => setPurchaseType('dinheiro')}
                 />
                 <span>Dinheiro</span>
               </div>
@@ -118,8 +123,7 @@ export default function Converter({ dolarCotation }) {
                   type="radio"
                   value={purchaseType}
                   checked={purchaseType === 'cartão'}
-                  onClick={() => setPurchaseType('cartão')}
-                  onChange={() => {}}
+                  onChange={() => setPurchaseType('cartão')}
                 />
                 <span>Cartão</span>
               </div>

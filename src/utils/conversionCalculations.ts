@@ -1,14 +1,22 @@
-function percentage(num, per) {
+function percentage(num: number, per: number) {
   return (num / 100) * per;
 }
 
-export function moneyConversion(value, stateTax, dolarCotation) {
+export function moneyConversion(
+  value: number,
+  stateTax: number,
+  dolarCotation: number
+): number {
   const withTax = value + (value / 100) * stateTax;
   const converted = withTax * (dolarCotation + percentage(dolarCotation, 1.1));
   return Number(converted.toFixed(2));
 }
 
-export function cardConversion(value, stateTax, dolarCotation) {
+export function cardConversion(
+  value: number,
+  stateTax: number,
+  dolarCotation: number
+): number {
   const withTax = value + (value / 100) * stateTax;
   const converted = withTax * dolarCotation;
   const plusIof = converted + percentage(converted, 6.4);

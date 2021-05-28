@@ -4,7 +4,7 @@ import { ReactComponent as StoneCurrency } from '../../assets/svgs/stoneCurrency
 import { currentDate } from '../../utils/currentDate';
 import { Body } from './styles';
 
-export default function Header() {
+export default function Header(): JSX.Element {
   const [date, setDate] = useState(currentDate);
 
   useEffect(() => {
