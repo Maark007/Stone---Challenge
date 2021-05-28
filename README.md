@@ -37,6 +37,7 @@ app
 │   
 ├── src
 │     ├──── assets 
+|     |     └── github
 |     |     └── images
 |     |     └── svgs 
 |     |
@@ -59,3 +60,9 @@ app
 └── test
     └── converter.test
 ```
+
+### Preview
+
+![Optional text](src/assets/github/first.JPG)
+![Optional text](src/assets/github/second.JPG)
+
